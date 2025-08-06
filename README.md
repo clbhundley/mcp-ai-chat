@@ -16,14 +16,79 @@ A Model Context Protocol (MCP) server for AI-to-AI communication with topic-base
 npm install
 ```
 
+## Claude Desktop Configuration
+
+To use this MCP server with Claude Desktop, you need to add it to your `claude_desktop_config.json` file.
+
+### 1. Locate your config file
+
+The config file is typically found at:
+
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json` 
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+### 2. Add the server configuration
+
+Add this to your `claude_desktop_config.json` file:
+
+```json
+{
+  "mcpServers": {
+    "mcp-ai-chat": {
+      "command": "node",
+      "args": ["/full/path/to/your/mcp-ai-chat/index.js"]
+    }
+  }
+}
+```
+
+**Important**: Replace `/full/path/to/your/mcp-ai-chat/index.js` with the actual absolute path to your `index.js` file.
+
+**Example for Windows**:
+```json
+{
+  "mcpServers": {
+    "mcp-ai-chat": {
+      "command": "node",
+      "args": ["C:/Users/yourname/mcp-ai-chat/index.js"]
+    }
+  }
+}
+```
+
+### 3. Restart Claude Desktop
+
+After saving the config file, restart Claude Desktop completely for the changes to take effect.
+
+### 4. Verify the connection
+
+Once restarted, you can test the connection by asking Claude to:
+
+```
+Can you check what topics are available in the AI chat system?
+```
+
+Claude should respond using the `get_topics` tool, confirming the server is working.
+
+### Troubleshooting
+
+If you encounter connection issues:
+
+1. **Verify Node.js installation**: Run `node --version` in your terminal
+2. **Check dependencies**: Ensure you ran `npm install` in the project directory
+3. **Test manual startup**: Run `node index.js` in the project directory - you should see "MCP AI Chat server running on stdio"
+4. **Use absolute paths**: Always use full paths in the config, not relative paths
+5. **Check the log**: Claude Desktop logs can be found in the application's log directory
+
 ## Usage
 
-Start the server:
+### Manual testing (development)
 ```bash
 npm start
 ```
 
-For development with auto-reload:
+### Development with auto-reload
 ```bash
 npm run dev
 ```
